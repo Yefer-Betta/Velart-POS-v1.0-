@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Usuarios - Velart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style> body{background:#ffe4e6} </style>
+</head>
+<body>
+  <header class="bg-pink-600 text-white p-4 flex justify-between items-center">
+    <div class="flex items-center gap-3"><img src="img/logo_velart.png" class="w-8 h-8"><h1 class="font-bold">Velart</h1></div>
+    <button id="btnCerrar" class="bg-pink-800 px-3 py-1 rounded">Cerrar sesión</button>
+  </header>
+
+  <div class="flex">
+    <aside class="w-64 bg-pink-500 text-white min-h-screen p-4">
+      <ul class="space-y-3 text-lg">
+        <li><a href="dashboard.html" class="block p-2 rounded">Dashboard</a></li>
+        <li><a href="usuarios.html" class="block menu-activo p-2 rounded">Usuarios</a></li>
+        <li><a href="configuracion.html" class="block p-2 rounded">Configuración</a></li>
+      </ul>
+    </aside>
+
+    <main class="flex-1 p-6">
+      <h2 class="text-2xl font-bold text-pink-700 mb-4">Usuarios</h2>
+
+      <div class="card mb-6">
+        <input id="nuevoUser" placeholder="Usuario" class="w-full mb-2 input"/>
+        <input id="nuevoPass" placeholder="Contraseña" type="password" class="w-full mb-2 input"/>
+        <select id="nuevoRol" class="w-full mb-2 input"><option value="empleado">Empleado</option><option value="admin">Administrador</option></select>
+        <button id="btnCrearUser" class="btn">Crear usuario</button>
+      </div>
+
+      <div class="card">
+        <h3 class="font-semibold mb-3">Lista de usuarios</h3>
+        <table class="table w-full text-center">
+          <thead class="bg-pink-600 text-white"><tr><th>Usuario</th><th>Rol</th><th>Acciones</th></tr></thead>
+          <tbody id="tablaUsuarios"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/utils.js"></script>
+
+  <script>
+    protegerPagina();
+    document.getElementById('btnCerrar').addEventListener('click', cerrarSesion);
+
+    function renderUsuarios(){
+      const t = document.getElementById('tablaUsuarios');
+      t.innerHTML = '';
+      let users = JSON.parse(localStorage.getItem('usuarios')) || [];
+      users.forEach((u,i)=> t.innerHTML += `<tr><td>${u.usuario}</td><td>${u.rol}</td><td><button onclick="eliminarUsuario(${i})" class="btn" style="background:#ef4444">Eliminar</button></td></tr>`);
+    }
+
+    document.getElementById('btnCrearUser').addEventListener('click', ()=>{
+      const user = document.getElementById('nuevoUser').value.trim();
+      const pass = document.getElementById('nuevoPass').value.trim();
+      const rol = document.getElementById('nuevoRol').value;
+      if(!user || !pass) return alert('Complete campos');
+      crearUsuario(user,pass,rol);
+      document.getElementById('nuevoUser').value=''; document.getElementById('nuevoPass').value='';
+      renderUsuarios();
+    });
+
+    renderUsuarios();
+  </script>
+</body>
+</html>

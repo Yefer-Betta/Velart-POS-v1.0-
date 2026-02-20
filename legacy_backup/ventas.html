@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ventas - Velart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style> body{background:#ffe4e6} </style>
+</head>
+
+<body class="flex flex-col min-h-screen text-gray-800">
+
+  <!-- HEADER -->
+  <header class="bg-pink-600 text-white p-4 flex justify-between items-center">
+    <div class="flex items-center gap-4">
+      <img src="img/logo_velart.png" alt="logo" class="w-10 h-10 object-contain">
+      <h1 class="text-xl font-bold">Velart - Panel</h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <span id="usuarioNombre" class="hidden md:inline"></span>
+      <button id="btnCerrar" class="bg-pink-800 px-3 py-1 rounded">
+        Cerrar sesión
+      </button>
+    </div>
+  </header>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <div class="flex flex-1">
+
+    <!-- MENÚ LATERAL -->
+    <aside class="w-64 bg-pink-500 text-white p-4">
+      <ul class="space-y-3 text-lg font-semibold">
+        <li><a href="dashboard.html" class="block hover:bg-pink-600 p-2 rounded">Dashboard</a></li>
+        <li><a href="ventas.html" class="block bg-pink-700 p-2 rounded">Ventas</a></li>
+        <li><a href="gastos.html" class="block hover:bg-pink-600 p-2 rounded">Gastos</a></li>
+        <li><a href="reportes.html" class="block hover:bg-pink-600 p-2 rounded">Reportes</a></li>
+        <li><a href="configuracion.html" class="block hover:bg-pink-600 p-2 rounded">Configuración</a></li>
+      </ul>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="flex-1 p-6">
+      <h2 class="text-3xl font-bold mb-4 text-pink-600">Registro de Ventas</h2>
+
+      <div class="card bg-white p-6 rounded-xl shadow-lg mb-6">
+        <form id="formVenta">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label>Producto</label>
+              <input id="producto" type="text" class="input">
+            </div>
+
+            <div>
+              <label>Cantidad</label>
+              <input id="cantidad" type="number" class="input">
+            </div>
+
+            <div>
+              <label>Precio</label>
+              <input id="precio" type="number" class="input">
+            </div>
+
+            <div>
+              <label>Método de pago</label>
+              <select id="pago" class="input">
+                <option>Efectivo</option>
+                <option>Nequi</option>
+                <option>Tarjeta</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn mt-4">Registrar Venta</button>
+        </form>
+      </div>
+
+      <div class="card bg-white p-6 rounded-xl shadow-lg">
+        <h3 class="text-xl font-semibold mb-4">Historial</h3>
+        <table class="table w-full text-center">
+          <thead class="bg-pink-600 text-white">
+            <tr>
+              <th>Producto</th>
+              <th>Cant.</th>
+              <th>Precio</th>
+              <th>Total</th>
+              <th>Pago</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody id="tablaVentas"></tbody>
+        </table>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ventas.js"></script>
+  <script src="js/utils.js"></script>
+
+  <script>
+    protegerPagina();
+  </script>
+
+</body>
+</html>

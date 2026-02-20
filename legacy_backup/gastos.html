@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gastos - Velart</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body { background-color: #ffe4e6; }
+    .card { background: white; padding: 20px; border-radius: 16px; }
+  </style>
+</head>
+
+<body class="flex">
+
+  <!-- ========================
+        MENÚ LATERAL
+  ==========================-->
+  <aside class="w-64 bg-pink-500 text-white min-h-screen p-4">
+    <ul class="space-y-3 text-lg font-semibold">
+      <li><a href="dashboard.html" class="block hover:bg-pink-600 p-2 rounded">Dashboard</a></li>
+      <li><a href="ventas.html" class="block hover:bg-pink-600 p-2 rounded">Ventas</a></li>
+      <li><a href="gastos.html" class="block bg-pink-700 p-2 rounded">Gastos</a></li>
+      <li><a href="reportes.html" class="block hover:bg-pink-600 p-2 rounded">Reportes</a></li>
+      <li><a href="configuracion.html" class="block hover:bg-pink-600 p-2 rounded">Configuración</a></li>
+    </ul>
+  </aside>
+
+  <!-- ========================
+         CONTENIDO PRINCIPAL
+  ==========================-->
+  <main class="flex-1 p-6">
+
+    <h2 class="text-3xl font-bold mb-4 text-pink-600">Registro de Gastos</h2>
+
+    <!-- FORMULARIO DE GASTOS -->
+    <div class="card mb-6">
+      <form id="formGasto">
+
+        <div class="grid grid-cols-2 gap-4">
+
+          <!-- Campo descripción -->
+          <div>
+            <label class="font-semibold">Descripción del gasto</label>
+            <input id="desc" type="text" class="border rounded p-2 w-full">
+          </div>
+
+          <!-- Campo monto -->
+          <div>
+            <label class="font-semibold">Monto del gasto</label>
+            <input id="monto" type="number" class="border rounded p-2 w-full">
+          </div>
+
+          <!-- Campo método -->
+          <div>
+            <label class="font-semibold">Método de pago</label>
+            <select id="metodo" class="border rounded p-2 w-full">
+              <option>Efectivo</option>
+              <option>Nequi</option>
+              <option>Transferencia</option>
+            </select>
+          </div>
+
+        </div>
+
+        <button class="mt-4 bg-yellow-500 text-white px-4 py-2 rounded">
+          Registrar Gasto
+        </button>
+
+      </form>
+    </div>
+
+    <!-- TABLA DE GASTOS -->
+    <div class="card">
+      <h3 class="text-xl font-semibold mb-4">Historial de Gastos</h3>
+
+      <table class="w-full border">
+        <thead class="bg-pink-300">
+          <tr>
+            <th class="p-2">Descripción</th>
+            <th class="p-2">Monto</th>
+            <th class="p-2">Método</th>
+          </tr>
+        </thead>
+
+        <!-- IMPORTANTE: SOLO UN TBODY -->
+        <tbody id="tablaGastos"></tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <!-- ========================
+             SCRIPTS
+  ==========================-->
+  <script src="js/app.js"></script>
+  <script src="js/gastos.js"></script>
+  <script src="js/utils.js"></script>
+
+  <script>
+
+    // ================================
+    //  Cargar tabla desde localStorage
+    // ================================
+    function cargarGastos() {
+      const tabla = document.getElementById("tablaGastos");
+      tabla.innerHTML = "";
+
+      const lista = obtenerGastos();  // viene de app.js
+
+      lista.forEach(g => {
+        tabla.innerHTML += `
+          <tr>
+            <td class="p-2 border">${g.descripcion}</td>
+            <td class="p-2 border">$ ${g.monto.toLocaleString()}</td>
+            <td class="p-2 border">${g.metodo}</td>
+          </tr>
+        `;
+      });
+    }
+
+    // ================================
+    //  Registrar gasto
+    // ================================
+    document.getElementById("formGasto").addEventListener("submit", e => {
+      e.preventDefault();
+
+      const descripcion = document.getElementById("desc").value.trim();
+      const monto = parseFloat(document.getElementById("monto").value);
+      const metodo = document.getElementById("metodo").value;
+
+      if (!descripcion || isNaN(monto)) {
+        alert("Completa todos los campos.");
+        return;
+      }
+
+      // Guardar en localStorage (función global)
+      guardarGasto(descripcion, monto, metodo);
+
+      // Actualizar tabla
+      cargarGastos();
+
+      // Limpiar formulario
+      e.target.reset();
+    });
+
+    // Carga inicial
+    cargarGastos();
+
+  </script>
+
+</body>
+</html>

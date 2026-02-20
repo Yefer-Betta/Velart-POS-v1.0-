@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes - Velart</title>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- SheetJS (Excel) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+  <style>
+    body { background-color: #ffe4e6; }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+
+<body class="flex">
+
+  <!-- MENÚ LATERAL -->
+  <aside class="w-64 bg-pink-500 text-white min-h-screen p-4">
+    <ul class="space-y-3 text-lg font-semibold">
+      <li><a href="dashboard.html" class="block hover:bg-pink-600 p-2 rounded">Dashboard</a></li>
+      <li><a href="ventas.html" class="block hover:bg-pink-600 p-2 rounded">Ventas</a></li>
+      <li><a href="gastos.html" class="block hover:bg-pink-600 p-2 rounded">Gastos</a></li>
+      <li><a href="reportes.html" class="block bg-pink-700 p-2 rounded">Reportes</a></li>
+      <li><a href="configuracion.html" class="block hover:bg-pink-600 p-2 rounded">Configuración</a></li>
+    </ul>
+  </aside>
+
+  <!-- CONTENIDO -->
+  <main class="flex-1 p-6">
+
+    <h2 class="text-3xl font-bold text-pink-700 mb-6">Reportes generales</h2>
+
+    <!-- FILTRO -->
+    <div class="card mb-6">
+      <h3 class="text-xl font-semibold mb-3">Filtrar reportes por fecha</h3>
+
+      <select id="filtroFecha" class="p-2 border rounded bg-pink-100">
+        <option value="hoy">Hoy</option>
+        <option value="semana">Esta semana</option>
+        <option value="mes">Este mes</option>
+        <option value="todo">Todo</option>
+      </select>
+
+      <button id="btnExportarExcel"
+        class="ml-4 bg-green-500 text-white p-2 rounded hover:bg-green-600">
+        Exportar a Excel 📊
+      </button>
+    </div>
+
+    <!-- GRÁFICAS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+      <div class="card">
+        <h3 class="text-xl font-semibold mb-3">Ventas por producto</h3>
+        <div style="height:260px;">
+          <canvas id="chartProductos"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="text-xl font-semibold mb-3">Métodos de pago</h3>
+        <div style="height:260px;">
+          <canvas id="chartPagos"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="text-xl font-semibold mb-3">Ventas por fecha</h3>
+        <div style="height:260px;">
+          <canvas id="chartFechas"></canvas>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="text-xl font-semibold mb-3">Ganancias</h3>
+        <div style="height:260px;">
+          <canvas id="chartGanancias"></canvas>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TABLA -->
+    <div class="card">
+      <h3 class="text-xl font-semibold mb-4">Resumen general</h3>
+
+      <table class="w-full text-left border">
+        <thead class="bg-pink-600 text-white">
+          <tr>
+            <th class="p-2">Ítem</th>
+            <th class="p-2">Valor</th>
+          </tr>
+        </thead>
+        <tbody id="tablaResumen"></tbody>
+      </table>
+    </div>
+
+  </main>
+
+  <!-- JS -->
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ventas.js"></script>
+  <script src="js/utils.js"></script>
+
+  <script>
+    protegerPagina();
+
+    function cargarReportes(rango='todo') {
+
+      const prod      = ventasPorProducto(rango);
+      const pagos     = metodosPagoResumen(rango);
+      const fechas    = ventasPorFecha(rango);
+      const ganancias = gananciasPorFecha(rango);
+
+      if (window.ch1) window.ch1.destroy();
+      if (window.ch2) window.ch2.destroy();
+      if (window.ch3) window.ch3.destroy();
+      if (window.ch4) window.ch4.destroy();
+
+      window.ch1 = new Chart(chartProductos, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(prod),
+          datasets: [{ label: "COP", data: Object.values(prod), backgroundColor: "#db2777" }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+
+      window.ch2 = new Chart(chartPagos, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(pagos),
+          datasets: [{ data: Object.values(pagos), backgroundColor: ["#f472b6","#facc15","#4ade80"] }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+
+      window.ch3 = new Chart(chartFechas, {
+        type: 'line',
+        data: {
+          labels: Object.keys(fechas),
+          datasets: [{ label: "Ventas", data: Object.values(fechas), borderColor: "#db2777" }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+
+      window.ch4 = new Chart(chartGanancias, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(ganancias),
+          datasets: [{ label: "Ganancia", data: Object.values(ganancias), backgroundColor: "#22c55e" }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+
+      let v = totalVentas(rango);
+      let g = totalGastos(rango);
+      tablaResumen.innerHTML = `
+        <tr><td class="p-2 border">Total Ventas</td><td class="p-2 border">$ ${v.toLocaleString()}</td></tr>
+        <tr><td class="p-2 border">Total Gastos</td><td class="p-2 border">$ ${g.toLocaleString()}</td></tr>
+        <tr><td class="p-2 border font-bold">Balance</td><td class="p-2 border font-bold">$ ${(v-g).toLocaleString()}</td></tr>
+      `;
+    }
+
+    filtroFecha.addEventListener("change", e => cargarReportes(e.target.value));
+    btnExportarExcel.addEventListener("click", () => {
+      exportarExcel(
+        filtrarPorFecha(obtenerVentas(), filtroFecha.value),
+        filtrarPorFecha(obtenerGastos(), filtroFecha.value)
+      );
+    });
+
+    cargarReportes("todo");
+  </script>
+
+</body>
+</html>

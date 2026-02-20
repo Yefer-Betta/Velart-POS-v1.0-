@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inicio de Sesión</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #ffe3e3; /* Fondo rosado pastel */
+    }
+  </style>
+</head>
+
+<body class="flex items-center justify-center min-h-screen">
+
+  <!-- CONTENEDOR DEL FORMULARIO -->
+  <div class="bg-white shadow-xl rounded-lg p-8 w-full max-w-sm border border-pink-400">
+
+    <!-- LOGO -->
+    <div class="flex justify-center mb-4">
+      <img src="img/logo_velartbgw.png" alt="Logo Velart" class="w-24 h-24 object-contain">
+    </div>
+
+    <h2 class="text-2xl font-bold text-center text-pink-600 mb-6">Iniciar Sesión</h2>
+
+    <!-- FORMULARIO -->
+    <form id="loginForm" class="space-y-4">
+
+      <!-- Usuario -->
+      <div>
+        <label class="block text-gray-700 font-semibold">Usuario</label>
+        <input 
+          id="usuario"
+          type="text"
+          required
+          class="w-full mt-1 p-2 border-2 border-pink-400 rounded-lg focus:outline-none focus:border-pink-600"
+          placeholder="Ingrese su usuario">
+      </div>
+
+      <!-- Contraseña -->
+      <div>
+        <label class="block text-gray-700 font-semibold">Contraseña</label>
+        <input 
+          id="clave"
+          type="password"
+          required
+          class="w-full mt-1 p-2 border-2 border-pink-400 rounded-lg focus:outline-none focus:border-pink-600"
+          placeholder="Ingrese su contraseña">
+      </div>
+
+      <!-- Botón -->
+      <button 
+        type="submit"
+        class="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-2 rounded-lg transition">
+        Entrar
+      </button>
+
+      <!-- Mensaje error -->
+      <p id="mensaje" class="text-red-500 text-center mt-2"></p>
+
+    </form>
+  </div>
+
+  <!-- SCRIPT DEL LOGIN -->
+  <script src="js/auth.js"></script>
+  
+<script>
+document.getElementById("loginForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const user = document.getElementById("usuario").value.trim();
+  const pass = document.getElementById("clave").value.trim();
+  const mensaje = document.getElementById("mensaje");
+
+  if (login(user, pass)) {
+    window.location.href = "dashboard.html";
+  } else {
+    mensaje.textContent = "Credenciales incorrectas.";
+  }
+});
+</script>
+
+
+</body>
+</html>

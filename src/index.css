@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+/* ── Light mode variables ─────────────────────── */
+@layer theme {
+  :root {
+    --color-primary: #db2777;
+    /* pink-600 */
+    --color-secondary: #fce7f3;
+    /* pink-100 */
+    --bg-page: #f9fafb;
+    /* gray-50 */
+    --bg-card: #ffffff;
+    --text-main: #111827;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+  }
+
+  /* ── Dark mode variables ──────────────────────── */
+  :root.dark {
+    --color-primary: #f472b6;
+    /* pink-400 – más brillante en oscuro */
+    --color-secondary: #4a1942;
+    --bg-page: #0f172a;
+    /* slate-900 */
+    --bg-card: #1e293b;
+    /* slate-800 */
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-color: #334155;
+  }
+}
+
+/* ── Dark mode global overrides ──────────────── */
+.dark body {
+  background-color: var(--bg-page);
+  color: var(--text-main);
+}
+
+/* Backgrounds */
+.dark .bg-white {
+  background-color: var(--bg-card) !important;
+}
+
+.dark .bg-gray-50 {
+  background-color: #1e293b !important;
+}
+
+.dark .bg-gray-100 {
+  background-color: #334155 !important;
+}
+
+.dark .bg-gray-200 {
+  background-color: #475569 !important;
+}
+
+.dark .bg-pink-50 {
+  background-color: #2d1b33 !important;
+}
+
+.dark .bg-pink-100 {
+  background-color: #3b1f42 !important;
+}
+
+/* Text */
+.dark .text-gray-800 {
+  color: #f1f5f9 !important;
+}
+
+.dark .text-gray-700 {
+  color: #e2e8f0 !important;
+}
+
+.dark .text-gray-600 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-gray-500 {
+  color: #94a3b8 !important;
+}
+
+.dark .text-gray-400 {
+  color: #64748b !important;
+}
+
+.dark .text-pink-700 {
+  color: #f9a8d4 !important;
+}
+
+.dark .text-pink-600 {
+  color: #f472b6 !important;
+}
+
+/* Borders */
+.dark .border-gray-100 {
+  border-color: #334155 !important;
+}
+
+.dark .border-gray-200 {
+  border-color: #475569 !important;
+}
+
+.dark .border-gray-300 {
+  border-color: #475569 !important;
+}
+
+.dark .border-pink-100 {
+  border-color: #4a1942 !important;
+}
+
+.dark .border-pink-300 {
+  border-color: #86198f !important;
+}
+
+/* Dividers */
+.dark .divide-gray-100>*+* {
+  border-color: #334155 !important;
+}
+
+.dark .divide-gray-50>*+* {
+  border-color: #1e293b !important;
+}
+
+/* Shadows */
+.dark .shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dark .shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+}
+
+.dark .shadow-lg {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Table rows */
+.dark .hover\:bg-pink-50:hover {
+  background-color: #2d1b33 !important;
+}
+
+.dark .hover\:bg-gray-50:hover {
+  background-color: #1e293b !important;
+}
+
+.dark .hover\:bg-pink-100:hover {
+  background-color: #3b1f42 !important;
+}
+
+/* Badges / tags */
+.dark .bg-green-100 {
+  background-color: #14532d !important;
+  color: #86efac !important;
+}
+
+.dark .bg-blue-100 {
+  background-color: #1e3a5f !important;
+  color: #93c5fd !important;
+}
+
+.dark .bg-red-100 {
+  background-color: #7f1d1d !important;
+  color: #fca5a5 !important;
+}
+
+.dark .bg-yellow-100 {
+  background-color: #713f12 !important;
+  color: #fde047 !important;
+}
+
+.dark .bg-purple-100 {
+  background-color: #3b0764 !important;
+  color: #d8b4fe !important;
+}
+
+/* Sticky header */
+.dark header.sticky {
+  background-color: #1e293b !important;
+  border-color: #334155 !important;
+}
+
+/* ── Inputs, selects en dark ─────────────────── */
+.dark input:not([type="range"]),
+.dark select,
+.dark textarea {
+  background-color: #0f172a !important;
+  color: #f1f5f9 !important;
+  border-color: #475569 !important;
+}
+
+.dark input::placeholder {
+  color: #64748b !important;
+}
+
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors shadow-sm font-medium;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors shadow-sm font-medium;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition-all;
+  }
+
+  .card {
+    @apply bg-white p-6 rounded-xl shadow-sm border border-gray-100;
+  }
+}

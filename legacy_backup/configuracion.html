@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración - Velart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style> body{background:#ffe4e6} </style>
+</head>
+
+<body class="flex">
+  <aside class="w-64 bg-pink-500 text-white min-h-screen p-4">
+    <ul class="space-y-3 text-lg font-semibold">
+      <li><a href="dashboard.html" class="block hover:bg-pink-600 p-2 rounded">Dashboard</a></li>
+      <li><a href="configuracion.html" class="block bg-pink-700 p-2 rounded">Configuración</a></li>
+    </ul>
+  </aside>
+
+  <main class="flex-1 p-6">
+    <h2 class="text-3xl font-bold text-pink-600 mb-6">Configuración</h2>
+
+    <div class="card p-6">
+      <p>Puedes modificar temas, colores y parámetros futuros aquí.</p>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script> protegerPagina(); </script>
+</body>
+</html>

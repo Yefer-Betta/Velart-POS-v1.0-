@@ -1,0 +1,114 @@
+/* ======== ESTILO GLOBAL MODERNO ======== */
+
+body {
+  background-color: #ffe4e6;  /* ROSADO pastel */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+/* Botón moderno */
+.btn {
+  background-color: #ffb300;
+  color: #111;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.btn:hover {
+  background-color: #d99900;
+}
+
+/* Inputs */
+input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-top: 4px;
+  background: white;
+}
+
+input:focus, select:focus {
+  border-color: #ff9f43;
+  box-shadow: 0 0 0 2px #ffcc80;
+}
+
+/* Tablas */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  background: #ffcdd2;
+  color: #333;
+  padding: 10px;
+}
+
+.table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/* Menú lateral */
+.sidebar a {
+  display: block;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.sidebar a:hover {
+  background: #f8bbd0;
+}
+
+.active {
+  background: #f48fb1 !important;
+  color: #fff;
+}
+
+/* =======================
+   AJUSTE DE GRÁFICAS
+   ======================= */
+
+/* Contenedor que controla el tamaño máximo */
+.chart-container {
+    max-width: 500px;   /* reduce el ancho máximo */
+    margin: 0 auto;     /* centra la gráfica */
+}
+
+/* Hace que la gráfica no se desborde */
+canvas {
+    width: 100% !important;
+    height: auto !important;
+}
+/* Contenedor responsive de gráficas */
+.graficas-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Tarjetas */
+.card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+/* Ajuste canvas */
+canvas {
+    width: 100% !important;
+    height: auto !important;
+}

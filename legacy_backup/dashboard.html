@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panel - Velart</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <style> body { background:#fff5f7 } </style>
+</head>
+<body class="text-gray-800">
+
+  <header class="bg-pink-600 text-white p-4 flex justify-between items-center">
+    <div class="flex items-center gap-4">
+      <img src="img/logo_velart.png" alt="logo" class="w-10 h-10 object-contain">
+      <h1 class="text-xl font-bold">Velart - Panel</h1>
+    </div>
+    <div class="flex items-center gap-4">
+      <span id="usuarioNombre" class="hidden md:inline"></span>
+      <button id="btnCerrar" class="bg-pink-800 px-3 py-1 rounded">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <div class="flex">
+    <!-- MENU LATERAL -->
+    <aside class="w-64 bg-pink-500 text-white min-h-screen p-4">
+      <ul class="space-y-3 text-lg font-semibold">
+        <li><a href="dashboard.html" class="block menu-activo p-2 rounded">Dashboard</a></li>
+        <li><a href="ventas.html" class="block hover:bg-pink-600 p-2 rounded">Ventas</a></li>
+        <li><a href="gastos.html" class="block hover:bg-pink-600 p-2 rounded">Gastos</a></li>
+        <li><a href="productos.html" class="block hover:bg-pink-600 p-2 rounded">Productos</a></li>
+        <li><a href="inventario.html" class="block hover:bg-pink-600 p-2 rounded">Inventario</a></li>
+        <li><a href="cierre.html" class="block hover:bg-pink-600 p-2 rounded">Cierres</a></li>
+        <li><a href="reportes.html" class="block hover:bg-pink-600 p-2 rounded">Reportes</a></li>
+        <li><a href="configuracion.html" class="block hover:bg-pink-600 p-2 rounded">Configuración</a></li>
+        <li><a href="usuarios.html" class="block hover:bg-pink-600 p-2 rounded">Usuarios</a></li>
+      </ul>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="flex-1 p-6">
+      <h2 class="text-3xl font-bold text-pink-700 mb-6">Panel de control</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="card border-l-4 border-pink-500">
+          <h3 class="text-lg font-semibold">Ventas totales</h3>
+          <p id="cardVentas" class="text-3xl font-bold mt-3 text-pink-600">$0</p>
+          <a href="ventas.html" class="mt-3 inline-block btn text-center w-full">Registrar Venta</a>
+        </div>
+
+        <div class="card border-l-4 border-yellow-500">
+          <h3 class="text-lg font-semibold">Gastos totales</h3>
+          <p id="cardGastos" class="text-3xl font-bold mt-3 text-yellow-600">$0</p>
+          <a href="gastos.html" class="mt-3 inline-block btn text-center w-full" style="background:#f59e0b">Registrar Gasto</a>
+        </div>
+
+        <div class="card border-l-4 border-green-500">
+          <h3 class="text-lg font-semibold">Balance</h3>
+          <p id="cardBalance" class="text-3xl font-bold mt-3 text-green-600">$0</p>
+          <a href="cierre.html" class="mt-3 inline-block btn text-center w-full" style="background:#10b981">Cerrar caja</a>
+        </div>
+      </div>
+
+      <div class="mt-8 bg-white p-6 rounded-xl shadow">
+        <h3 class="text-xl font-semibold mb-3">Resumen rápido</h3>
+        <p id="resumenRapido">Ventas y gastos hoy, productos más vendidos y últimas acciones.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/ventas.js"></script>
+  <script src="js/gastos.js"></script>
+  <script src="js/reportes.js"></script>
+  <script src="js/cierre.js"></script>
+  <script src="js/utils.js"></script>
+
+  <script>
+  protegerPagina();
+  // Muestra nombre usuario
+  const u = usuarioActual();
+  if (u && document.getElementById('usuarioNombre')) document.getElementById('usuarioNombre').textContent = u.usuario;
+
+  // Actualiza tarjetas
+  function actualizarDashboard() {
+    if (document.getElementById('cardVentas')) document.getElementById('cardVentas').textContent = "$ " + totalVentas().toLocaleString();
+    if (document.getElementById('cardGastos')) document.getElementById('cardGastos').textContent = "$ " + totalGastos().toLocaleString();
+    if (document.getElementById('cardBalance')) document.getElementById('cardBalance').textContent = "$ " + (totalVentas() - totalGastos()).toLocaleString();
+    // resumen rapido
+    const resumen = ventasPorProducto('todo');
+    const top = Object.entries(resumen).sort((a,b)=>b[1]-a[1])[0];
+    if (top && document.getElementById('resumenRapido')) document.getElementById('resumenRapido').textContent = `Producto más vendido: ${top[0]} → $${top[1].toLocaleString()}`;
+  }
+
+  // Exponer la función global para que app.js la pueda llamar
+  window.actualizarDashboard = actualizarDashboard;
+
+  // Inicializar
+  actualizarDashboard();
+</script>
+
+</body>
+</html>
+
