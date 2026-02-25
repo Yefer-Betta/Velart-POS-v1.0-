@@ -6,7 +6,7 @@ export const obtenerResumenDashboard = async () => {
     // para no descargar todas las ventas. Para este MVP, lo hacemos aqui.
 
     const [ventas, gastos] = await Promise.all([
-        obtenerVentas(),
+        obtenerVentas(1000), // Aumentamos el límite para asegurar un cálculo correcto en el MVP
         obtenerGastos()
     ]);
 

@@ -23,6 +23,12 @@ export const obtenerGastos = async () => {
     return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
+export const obtenerTodosLosGastos = async () => {
+    const q = query(collection(db, COLLECTION_NAME), orderBy('timestamp', 'desc'));
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), ref: doc.ref }));
+};
+
 export const eliminarGasto = async (id) => {
     await deleteDoc(doc(db, COLLECTION_NAME, id));
 };

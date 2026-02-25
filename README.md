@@ -69,11 +69,9 @@ npm run dev
 
 **O en Windows:** doble clic en `INSTALAR.bat`
 
-### Credenciales por defecto
-```
-Usuario:    admin
-Contraseña: 1234
-```
+### Configuración Inicial
+1. Crea un archivo `.env` basado en tus credenciales de Firebase.
+2. Crea tu primer usuario administrador desde la consola de Firebase Authentication.
 
 ---
 
